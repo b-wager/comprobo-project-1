@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'teleop = comprobo_project_1.teleop:main'
+            'teleop = comprobo_project_1.teleop:main',
+            'figure_eight = comprobo_project_1.figure_eight:main'
         ],
     },
 )

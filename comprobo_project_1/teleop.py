@@ -1,5 +1,5 @@
 """
-Teleoperation
+teleop Node
 --------
 This node allows for teleoperation of a robot using keyboard inputs.
 """
@@ -118,22 +118,18 @@ class TeleOp(Node):
         Execute a 90 degree left turn
         """
         angular_vel = 0.3
-        linear_vel = 0.1
         if not self.e_stop.is_set():
             self.drive(linear=0.0, angular=angular_vel)
             sleep(math.pi / angular_vel / 2)
-            self.drive(linear=linear_vel, angular=0.0)
     
     def turn_right(self):
         """
         Execute a 90 degree right turn
         """
         angular_vel = -0.3
-        linear_vel = 0.1
         if not self.e_stop.is_set():
             self.drive(linear=0.0, angular=angular_vel)
             sleep(math.pi / abs(angular_vel) / 2)
-            self.drive(linear=linear_vel, angular=0.0)
 
     def drive_forward(self):
         """
