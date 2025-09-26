@@ -1,8 +1,6 @@
-
 # RoboBehaviors and Finite State Machines
-CompRobo Project 1
-Brooke Wager
-Kelsey McClung
+### CompRobo Project 1
+Brooke Wager and Kelsey McClung
 
 This project explores the implementation of different robot behaviors within a finite state machine using Python, Ros2, and the Olin College Neato fleet. We have implemented four behaviors within a finite state machine: Teleoperation, Draw a Figure-Eight, Dizzy Collision Avoidance, and Wall Following.
 
@@ -11,9 +9,9 @@ This project explores the implementation of different robot behaviors within a f
 ### Teleoperation:
 Teleoperations, or teleops, allow us to control the Neato’s movement from a computer keyboard. We have implemented two sets of teleops controls, which both run at the same time. The space bar stops the program when the current state is teleops. Our two sets of controls are:
 
-wasd: This teleops system uses the keys w,a,s,d and is based on the Neato heading at the start of the Teleops state, where the Neato’s heading at the start is North. Each key represents a cardinal direction of the Neato’s initial position. When a direction is indicated by a key press, the Neato turns in place to the associated heading, then proceeds in a straight line at a constant velocity. 
+**wasd:** This teleops system uses the keys w,a,s,d and is based on the Neato heading at the start of the Teleops state, where the Neato’s heading at the start is North. Each key represents a cardinal direction of the Neato’s initial position. When a direction is indicated by a key press, the Neato turns in place to the associated heading, then proceeds in a straight line at a constant velocity. 
 
-ijkl: This teleops system uses the keys i,j,k,l and acts more typically. There are keys for forwards and backwards movement in a straight line, and keys for rotating left and right.
+**ijkl:** This teleops system uses the keys i,j,k,l and acts more typically. There are keys for forwards and backwards movement in a straight line, and keys for rotating left and right.
 
 Our teleops system uses the following controls:
 
@@ -37,7 +35,7 @@ Using Victoria’s starting code that allows python to interpret keyboard input,
 
 ### Draw a Figure-Eight:
 The Neato moves in a figure-eight shape, ending at its start location and heading. Programming a robot to move in a specific path based on its initial heading can be useful in cases when the robot’s physical space is known and controlled, and the robot must complete a task involving an exact movement. Ending in the same pose allows the robot to continue repeating the task. We choose a figure-eight shape for challenge and cuteness. 
-
+![](https://github.com/b-wager/comprobo-project-1/blob/main/images/figure_eight_diagram.png)
 
 
 #### Design Decisions:
@@ -48,7 +46,7 @@ The majority of the figure-eight code is run within the run_loop function, using
 
 
 ### Dizzy Collision Avoidance:
-To avoid the Neato continuously driving into a wall or other obstacles, we implemented  collision avoidance. When the Neato’s bump sensors are activated, it will back up in a loose squiggly line, then turn around to face the opposite direction of its collision. 
+To avoid the Neato continuously driving into a wall or other obstacles, we implemented collision avoidance. When the Neato’s bump sensors are activated, it will back up in a loose squiggly line, then turn around to face the opposite direction of its collision. 
 
 #### Design Decisions:
 The Neato’s bump sensors are used to detect the collision. Next, the Neato reverses with an angular velocity switching between positive and negative values to create the squiggly line backwards. We made this choice to add a charming, dizzy appearance to the robot. 
@@ -64,32 +62,33 @@ Our Neato can approach a wall, turn itself to drive parallel to the wall, and fo
 A video of our Neato’s wall following behavior can be found here: 
 https://youtu.be/6rgcGucc17I?si=xKCYfT8hX44F69ze
 
-
+![](https://github.com/b-wager/comprobo-project-1/blob/main/images/wall_following_diagram.png)
 
 
 #### Design Decisions
 The Neato approaches the wall using code adapted from the in class “wall_approach.py” sample code. If the object directly in front of the Neato is within target distance, the Neato will turn to come alongside the wall. Whether it turns to the left or right is based on which angle has the shortest distance to the wall between 45 degrees and 315 degrees. So, if the distance at 45 degrees is closer to the wall, the Neato will turn left since it was already angled towards a left turn. This means that the wall following requires the Neato to be initially pointing towards a wall, though it doesn’t have to be at a 90 degree angle to the wall. 
 
+![](https://github.com/b-wager/comprobo-project-1/blob/main/images/wall_following_diagram_2.png)
 
 Once the Neato has turned to come alongside the wall, it uses lidar data from its wall side to determine if it is closer or farther to the wall than the target distance range. The Neato will adjust based on this calculation, turning closer to the wall when it is too far, and turning away from the wall when it is too close. The Neato also uses proportional control, slowing down as it gets closer to the wall.
 
 Our code uses the minimum distance of an array of lidar data (the distances from the wall at angles 0 through 60 on the right and 300 through 360 on the left) to calculate whether the Neato’s distance is too far or too close to the wall. Using the minimum distance out of many distances at different angles allows us to ensure that the Neato’s understanding of distance to the wall isn’t too skewed by its repeated turns towards and away from the wall as it corrects itself. For example, If we only used the distance to the wall at a 90 degree angle, this distance would be much smaller when the Neato is exactly parallel to the wall than when it is turning away from the wall, this would cause the Neato to turn back towards the wall too soon and possibly crash. 
 
 ##### Code Structure
-The Neato uses the run_loop to approach the wall, using proportional control to slow down as it gets closer. When the Neato is within target range of the wall, the turn_at_wall function is used to compare the distance to the wall at angles 45 and 315 to determine which direction the Neato should turn in, this sets the self.turned var to ‘l’ or ‘r’, indicating the turn direction.
+The Neato uses the run_loop to approach the wall, using proportional control to slow down as it gets closer. When the Neato is within target range of the wall, the turn_at_wall function is used to compare the distance to the wall at angles 45 and 315 to determine which direction the Neato should turn in, this sets the self.turned var to *l* or *r*, indicating the turn direction.
 
 Once the neato has made its turn to come alongside the wall, it uses the minimum distance of 61 lidar scans to determine whether it is too close or too far from the wall within the run_loop. The variable self.turned informs which side of the Neato, or which angles, should be used to scan distance to the wall. Then, the angular velocity is adjusted for the Neato based on its distance from the wall.
 
 ## The Finite State Machine
 
 Our finite state machine moves the Neato through four states, with a series of transitions that ensure the Neato’s next state is always determined (unless the user keeps the Neato in the teleoperations state forever). The four states are our robot behaviors:
-	Teleops
-	Draw a Figure-Eight
-	Dizzy Collision Avoidance
-	Wall Follower
+- Teleops
+- Draw a Figure-Eight
+- Dizzy Collision Avoidance
+- Wall Follower
 
 All states and transitions are shown in the diagram below: 
-
+![](https://github.com/b-wager/comprobo-project-1/blob/main/images/finite_state_machine.png)
 
 #### Behavior Summary
 The Finite State machine begins in the Teleops state, and behaves based on the user's keyboard input, following the controls outlined in the Teleoperations behavior section. Transition out of the Teleops state to the Draw a Figure-Eight state is triggered by the press of the 8 key. If the user drives the Neato into a collision that activates the bump sensor, the Neato will transition to the Dizzy Collision Avoidance state. 
