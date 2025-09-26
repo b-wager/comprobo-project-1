@@ -22,8 +22,9 @@ setup(
         'console_scripts': [
             'teleop = comprobo_project_1.teleop:main',
             'figure_eight = comprobo_project_1.figure_eight:main',
-            'dizzy_reaction = comprobo_project_1.dizzy_reaction:main'
-            'wall_approach = comprobo_project_1.wall_approach:main'
+            'dizzy_reaction = comprobo_project_1.dizzy_reaction:main',
+            'wall_follow = comprobo_project_1.wall_follow:main',
+            'finite_state_controller = comprobo_project_1.finite_state_controller:main',
         ],
     },
 )
