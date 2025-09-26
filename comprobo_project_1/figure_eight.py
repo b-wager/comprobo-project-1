@@ -53,8 +53,7 @@ class FigureEight(Node):
         linear_vel = 0.1
         angular_vel = 0.3
         delta_ang = 0.01
-        self.drive(linear=linear_vel, angular=angular_vel)
-        sleep(math.pi / abs(angular_vel))
+
         while angular_vel > -0.3:
             angular_vel -= delta_ang
             self.drive(linear=linear_vel, angular=angular_vel)
@@ -64,6 +63,7 @@ class FigureEight(Node):
             angular_vel += delta_ang
             self.drive(linear=linear_vel, angular=angular_vel)
             sleep(20 * delta_ang)
+        sleep(math.pi / abs(angular_vel))
         self.drive(linear=0.0, angular=0.0)
 
         print('done with run loop')
